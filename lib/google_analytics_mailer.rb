@@ -39,7 +39,7 @@ module GoogleAnalyticsMailer
     # This method return the actual parameters to use when building links
     # @return [Hash] computed parameters
     def computed_analytics_params
-      self.class.google_analytics_class_params.merge(@_ga_instance_params || {})
+      @_computed_ga_params ||= self.class.google_analytics_class_params.merge(@_ga_instance_params || {})
     end
 
     private
