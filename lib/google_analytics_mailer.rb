@@ -15,6 +15,10 @@ module GoogleAnalyticsMailer
       raise ArgumentError, "Invalid parameters keys #{params.keys - VALID_ANALYTICS_PARAMS}"
     end
 
+    # add accessor for class level parameters
+    cattr_accessor(:google_analytics_params) { params }
+    # add accessor for instance level parameters
+    attr_accessor(:google_analytics_params)
   end
 
 end
