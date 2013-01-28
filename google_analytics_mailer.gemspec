@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Fabio Napoleoni"]
   gem.email         = ["f.napoleoni@gmail.com"]
   gem.description   = %q{This gem add google analytics campagin tags to every link in your action mailer}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.summary       = %q{This gem provides automatic Google Analytics tagged links in ActionMailer generated emails}
   gem.homepage      = "https://github.com/fabn/google_analytics_mailer"
 
   gem.files         = `git ls-files`.split($/)
