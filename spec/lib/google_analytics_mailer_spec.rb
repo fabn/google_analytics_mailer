@@ -20,12 +20,7 @@ describe GoogleAnalyticsMailer do
     it "should assign given parameters to a class variable" do
       params = {utm_source: 'newsletter', utm_medium: 'email'}
       TestMailer1.google_analytics_mailer(params)
-      TestMailer1.google_analytics_params.should == params
-    end
-
-    it "should create an accessor for instances" do
-      TestMailer1.send(:new).should respond_to :google_analytics_params
-      TestMailer1.send(:new).should respond_to :google_analytics_params=
+      TestMailer1.google_analytics_class_params.should == params
     end
 
   end
@@ -50,6 +45,11 @@ describe GoogleAnalyticsMailer do
       mail(to: 'user@example.com')
     end
 
+    def welcome2
+      google_analytics_params(utm_source: 'second_newsletter', utm_term: 'welcome2')
+      mail(to: 'user@example.com')
+    end
+
   end
 
   describe UserMailer do
@@ -65,6 +65,21 @@ describe GoogleAnalyticsMailer do
 
       it "should have analytics link with overridden params" do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+      end
+
+    end
+
+    # see view in spec/support/views/user_mailer/welcome2.html.erb
+    describe "#welcome2" do
+
+      subject { UserMailer.welcome2 }
+
+      it "should have analytics link with params taken from instance" do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=second_newsletter&utm_term=welcome2'
+      end
+
+      it "should have analytics link with overridden params" do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
       end
 
     end

@@ -18,7 +18,7 @@ module GoogleAnalyticsMailer
     end
 
     # add accessor for class level parameters
-    cattr_accessor(:google_analytics_params) { params }
+    cattr_accessor(:google_analytics_class_params) { params }
 
     # include the module which provides the actual functionality
     include GoogleAnalytics
@@ -39,7 +39,13 @@ module GoogleAnalyticsMailer
     # This method return the actual parameters to use when building links
     # @return [Hash] computed parameters
     def computed_analytics_params
-      self.class.google_analytics_params
+      self.class.google_analytics_class_params.merge(@_ga_instance_params || {})
+    end
+
+    private
+    # Instance level parameters, used only for the given message
+    def google_analytics_params params
+      @_ga_instance_params = params
     end
 
   end
