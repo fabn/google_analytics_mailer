@@ -1,5 +1,7 @@
 require "google_analytics_mailer/version"
+require "google_analytics_mailer/url_for"
 require "action_mailer"
+require "active_support/concern"
 
 # This module declares the main class method which is then callable from every
 # ActionMailer class
@@ -17,8 +19,29 @@ module GoogleAnalyticsMailer
 
     # add accessor for class level parameters
     cattr_accessor(:google_analytics_params) { params }
-    # add accessor for instance level parameters
-    attr_accessor(:google_analytics_params)
+
+    # include the module which provides the actual functionality
+    include GoogleAnalytics
+
+  end
+
+  # This module provides methods to deal with parameter merging and similar stuff
+  module GoogleAnalytics
+
+    # uses concern to include it
+    extend ActiveSupport::Concern
+
+    # this code is evaluated in class context
+    included do
+      helper GoogleAnalyticsMailer::UrlFor
+    end
+
+    # This method return the actual parameters to use when building links
+    # @return [Hash] computed parameters
+    def computed_analytics_params
+      self.class.google_analytics_params
+    end
+
   end
 
 end

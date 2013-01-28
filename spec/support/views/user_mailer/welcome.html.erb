@@ -1,0 +1,7 @@
+<h1>Newsletter title</h1>
+<div class="body">
+  <!-- this will produce ?utm_medium=email&utm_source=newsletter because of class default params -->
+  <%= link_to('Read online', newsletter_url) -%>
+  <!-- local parameters are not overridden, so this produces ?utm_medium=email&utm_source=my_newsletter -->
+  <%= link_to('Read online', newsletter_url(utm_source: 'my_newsletter')) -%>
+</div>

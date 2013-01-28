@@ -30,4 +30,45 @@ describe GoogleAnalyticsMailer do
 
   end
 
+  class UserMailer < ActionMailer::Base
+    default :from => 'no-reply@example.com'
+
+    # declare url parameters for this mailer
+    google_analytics_mailer utm_source: 'newsletter', utm_medium: 'email' # etc
+
+    # simulate url helper
+    helper do
+      def newsletter_url params = {}
+        'http://www.example.com/newsletter'.tap do |u|
+          u << "?#{params.to_param}" if params.any?
+        end.html_safe
+      end
+    end
+
+    # Links in this email will have all links with GA params automatically inserted
+    def welcome
+      mail(to: 'user@example.com')
+    end
+
+  end
+
+  describe UserMailer do
+
+    # see view in spec/support/views/user_mailer/welcome.html.erb
+    describe "#welcome" do
+
+      subject { UserMailer.welcome }
+
+      it "should have analytics link with params taken from class definition" do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
+      end
+
+      it "should have analytics link with overridden params" do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+      end
+
+    end
+
+  end
+
 end
