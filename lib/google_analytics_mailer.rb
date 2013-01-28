@@ -5,7 +5,15 @@ require "action_mailer"
 # ActionMailer class
 module GoogleAnalyticsMailer
 
-  def google_analytics_mailer
+  # These are the currently GA allowed get params for link tagging
+  VALID_ANALYTICS_PARAMS = [:utm_source, :utm_medium, :utm_campaign,
+                            :utm_term, :utm_content]
+
+  # Enable google analytics link tagging for the mailer which call this method
+  def google_analytics_mailer params = {}
+    if (params.keys - VALID_ANALYTICS_PARAMS).any?
+      raise ArgumentError, "Invalid parameters keys #{params.keys - VALID_ANALYTICS_PARAMS}"
+    end
 
   end
 
