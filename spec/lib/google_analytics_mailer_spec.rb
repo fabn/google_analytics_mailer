@@ -50,6 +50,10 @@ describe GoogleAnalyticsMailer do
       mail(to: 'user@example.com')
     end
 
+    def welcome3
+      mail(to: 'user@example.com')
+    end
+
   end
 
   describe UserMailer do
@@ -80,6 +84,17 @@ describe GoogleAnalyticsMailer do
 
       it "should have analytics link with overridden params" do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
+      end
+
+    end
+
+    # see view in spec/support/views/user_mailer/welcome3.html.erb
+    describe "#welcome3" do
+
+      subject { UserMailer.welcome3 }
+
+      it "should have analytics link with params taken from view" do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
       end
 
     end

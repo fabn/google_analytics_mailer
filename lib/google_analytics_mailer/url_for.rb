@@ -12,6 +12,8 @@ module GoogleAnalyticsMailer # :nodoc:
     def url_for(original_url)
       # Fetch final parameters calling private method
       params_to_add = controller.computed_analytics_params.with_indifferent_access
+      # temporary override coming from with_google_analytics_params method
+      params_to_add.merge!(@_override_ga_params) if @_override_ga_params.try(:any?)
       # if there are no parameters return super value
       if params_to_add.empty?
         super(original_url)
@@ -21,6 +23,16 @@ module GoogleAnalyticsMailer # :nodoc:
           url.query_values = (url.query_values || {}).reverse_merge(params_to_add) if url.absolute?
         end.to_s.html_safe
       end
+    end
+
+    # Allow to override Google Analytics params for a given block in views
+    # @return [String]
+    def with_google_analytics_params(params)
+      raise ArgumentError, "Missing block" unless block_given?
+      @_override_ga_params = params
+      yield
+      @_override_ga_params = nil
+      nil # do not return any value
     end
 
   end
