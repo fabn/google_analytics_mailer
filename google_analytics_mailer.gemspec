@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
 
   # gem dependencies for runtime
   gem.add_runtime_dependency "addressable", "~> 2.3.0"
-  gem.add_runtime_dependency "actionmailer", "~> 3.2.0"
+  gem.add_runtime_dependency "actionmailer", ">= 3.2.0"
 
   # gem dependencies for development
   gem.add_development_dependency "rake"
