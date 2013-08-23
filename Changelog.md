@@ -1,3 +1,7 @@
+## 0.1.1, released 2013-08-23
+
+* Added license to gemspec
+
 ## 0.1.0, released 2013-08-22
 
 * ActionMailer 4.0 support
