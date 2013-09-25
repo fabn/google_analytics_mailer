@@ -14,6 +14,8 @@ module GoogleAnalyticsMailer # :nodoc:
       params_to_add = controller.computed_analytics_params.with_indifferent_access
       # temporary override coming from with_google_analytics_params method
       params_to_add.merge!(@_override_ga_params) if @_override_ga_params.try(:any?)
+      # remove empty GA params
+      params_to_add.delete_if { |_, v| v.blank? }
       # if there are no parameters return super value
       if params_to_add.empty?
         super(original_url)
