@@ -1,3 +1,7 @@
+## 0.1.2, released 2013-09-26
+
+* Removed blank params from generated urls
+
 ## 0.1.1, released 2013-08-23
 
 * Added license to gemspec
