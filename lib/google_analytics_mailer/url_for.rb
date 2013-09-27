@@ -24,8 +24,9 @@ module GoogleAnalyticsMailer # :nodoc:
       raise ArgumentError, "Missing block" unless block_given?
       @_override_ga_params = params
       yield
-      @_override_ga_params = nil
       nil # do not return any value
+    ensure
+      @_override_ga_params = nil
     end
 
     private
