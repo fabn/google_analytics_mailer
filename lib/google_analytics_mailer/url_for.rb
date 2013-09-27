@@ -21,6 +21,13 @@ module GoogleAnalyticsMailer # :nodoc:
     # Acts as an around filter from the given block and return its content
     # by merging the given analytics parameters to current ones
     #
+    # @param [Hash] params options for url to build
+    # @option params [String] :utm_campaign required is the main GA param
+    # @option params [String] :utm_content content of the campaign
+    # @option params [String] :utm_source campaign source
+    # @option params [String] :utm_medium campaign medium
+    # @option params [String] :utm_term keyword for this campaign
+    #
     # @yield The given block is executed with overridden analytics parameters
     # @yieldreturn [String] content returned from the block with filtered parameters
     #

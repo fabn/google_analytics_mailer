@@ -5,15 +5,21 @@ require 'action_mailer'
 require 'active_support/concern'
 
 # This module declares the main class method which is then callable from every
-# ActionMailer class
+# ActionMailer class and in ActionController::Base if available.
 module GoogleAnalyticsMailer
 
   # These are the currently GA allowed get params for link tagging
-  VALID_ANALYTICS_PARAMS = [:utm_source, :utm_medium, :utm_campaign,
-                            :utm_term, :utm_content]
+  VALID_ANALYTICS_PARAMS = [:utm_source, :utm_medium, :utm_campaign, :utm_term, :utm_content]
 
-  # Enable google analytics link tagging for the mailer which call this method
-  def google_analytics_mailer params = {}
+  # Enable google analytics link tagging for the mailer (or controller) which call this method
+  #
+  # @param [Hash] params options for url to build
+  # @option params [String] :utm_campaign required is the main GA param
+  # @option params [String] :utm_content content of the campaign
+  # @option params [String] :utm_source campaign source
+  # @option params [String] :utm_medium campaign medium
+  # @option params [String] :utm_term keyword for this campaign
+  def google_analytics_mailer(params = {})
     if (params.keys - VALID_ANALYTICS_PARAMS).any?
       raise ArgumentError, "Invalid parameters keys #{params.keys - VALID_ANALYTICS_PARAMS}"
     end

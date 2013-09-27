@@ -1,8 +1,16 @@
 require 'addressable/uri'
 
+# Class used to do the actual insertion of parameters
 class GoogleAnalyticsMailer::UriBuilder
 
   # Append google analytics params to the given uri
+  # @param [String] uri the original uri
+  # @param [Hash] params options for url to build
+  # @option params [String] :utm_campaign required is the main GA param
+  # @option params [String] :utm_content content of the campaign
+  # @option params [String] :utm_source campaign source
+  # @option params [String] :utm_medium campaign medium
+  # @option params [String] :utm_term keyword for this campaign
   def build(uri, params)
     # remove empty GA params
     params.delete_if { |_, v| v.blank? }
