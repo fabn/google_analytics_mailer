@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 class GoogleAnalyticsMailer::UriBuilder
 
   # Append google analytics params to the given uri
