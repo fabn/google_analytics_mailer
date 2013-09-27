@@ -1,7 +1,8 @@
-require "google_analytics_mailer/version"
-require "google_analytics_mailer/url_for"
-require "action_mailer"
-require "active_support/concern"
+require 'google_analytics_mailer/version'
+require 'google_analytics_mailer/url_for'
+require 'google_analytics_mailer/uri_builder'
+require 'action_mailer'
+require 'active_support/concern'
 
 # This module declares the main class method which is then callable from every
 # ActionMailer class

@@ -23,16 +23,14 @@ describe GoogleAnalyticsMailer::UrlFor do
   let(:dummy_class) { Class.new(MockHelper) { include GoogleAnalyticsMailer::UrlFor } }
   let(:subject) { dummy_class.new }
 
-  describe '#url_for' do
+  describe '#with_google_analytics_params' do
 
-    it 'should not include blank GA params' do
-      subject.stub(computed_analytics_params: {utm_campaign: nil})
-      subject.url_for('http://www.example.com').should_not include 'utm_campaign'
-    end
-
-    it 'should uri encode GA parameter values' do
-      subject.stub(computed_analytics_params: {utm_campaign: 'Foo Bar'})
-      subject.url_for('http://www.example.com').should include 'utm_campaign=Foo%20Bar'
+    it 'should override used parameters while in the block' do
+      subject.stub(computed_analytics_params: {utm_source: 'foo'})
+      subject.with_google_analytics_params utm_source: 'bar' do
+        subject.url_for('http://www.example.com').should include 'utm_source=bar'
+      end
+      subject.url_for('http://www.example.com').should include 'utm_source=foo'
     end
 
   end

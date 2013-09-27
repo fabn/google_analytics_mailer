@@ -14,17 +14,8 @@ module GoogleAnalyticsMailer # :nodoc:
       params_to_add = controller.computed_analytics_params.with_indifferent_access
       # temporary override coming from with_google_analytics_params method
       params_to_add.merge!(@_override_ga_params) if @_override_ga_params.try(:any?)
-      # remove empty GA params
-      params_to_add.delete_if { |_, v| v.blank? }
-      # if there are no parameters return super value
-      if params_to_add.empty?
-        super(original_url)
-      else
-        # else parse the url and append given parameters
-        ::Addressable::URI.parse(super(original_url)).tap do |url|
-          url.query_values = (url.query_values || {}).reverse_merge(params_to_add) if url.absolute?
-        end.to_s.html_safe
-      end
+      # Avoid parse if params not given
+      params_to_add.empty? ? super(original_url) : builder.build(super(original_url), params_to_add)
     end
 
     # Allow to override Google Analytics params for a given block in views
@@ -35,6 +26,14 @@ module GoogleAnalyticsMailer # :nodoc:
       yield
       @_override_ga_params = nil
       nil # do not return any value
+    end
+
+    private
+
+    # Return a UriBuilder instance
+    # @return [UriBuilder]
+    def builder
+      @_builder ||= UriBuilder.new
     end
 
   end
