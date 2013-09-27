@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
 
   # gem dependencies for development
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rails', '~> 3.2.13'
+  gem.add_development_dependency 'rails', '>= 3.2.0'
   gem.add_development_dependency 'rspec-rails', '~> 2.13.0'
   gem.add_development_dependency 'email_spec', '~> 1.2.0'
   gem.add_development_dependency 'appraisal'
