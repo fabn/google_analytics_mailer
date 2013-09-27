@@ -1,5 +1,7 @@
 Not released changes
 
+## 0.2.0, released 2013-09-28
+
 * Inserted rspec-rails as development dependency to allow easier testing of helper methods
 * Now view helpers use output buffering to allow inline usage. It means that they must be used with equal sign in ERB templates
 * Allow disabling gem for a block of code with helper `without_google_analytics_params`
