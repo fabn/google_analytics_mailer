@@ -3,7 +3,7 @@
   <p>Lorem ipsum</p>
 </div>
 <div class="footer">
-  <%- with_google_analytics_params(utm_term: 'footer') do -%>
+  <%= with_google_analytics_params(utm_term: 'footer') do -%>
     <!-- this will override params and produces ?utm_medium=email&utm_source=newsletter&utm_term=footer -->
     <%= link_to('Read online', newsletter_url) -%>
   <%- end -%>

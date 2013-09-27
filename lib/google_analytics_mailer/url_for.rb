@@ -1,4 +1,4 @@
-require "addressable/uri"
+require 'action_view/helpers/capture_helper'
 
 module GoogleAnalyticsMailer # :nodoc:
 
@@ -18,22 +18,48 @@ module GoogleAnalyticsMailer # :nodoc:
       params_to_add.empty? ? super(original_url) : builder.build(super(original_url), params_to_add)
     end
 
-    # Allow to override Google Analytics params for a given block in views
-    # @return [String]
-    def with_google_analytics_params(params)
+    # Acts as an around filter from the given block and return its content
+    # by merging the given analytics parameters to current ones
+    #
+    # @yield The given block is executed with overridden analytics parameters
+    # @yieldreturn [String] content returned from the block with filtered parameters
+    #
+    # @example in an ERB template
+    #   <%= with_google_analytics_params(utm_content: 'foo') do -%>
+    #     <%= link_to 'foo', 'http://example.com' -%>
+    #   <%- end -%>
+    #
+    # @example Inline usage now possible because of captured output
+    #   <%= with_google_analytics_params(utm_content: 'foo') { link_to ... } -%>
+    #
+    # @return [String] the output returned by block
+    def with_google_analytics_params(params, &block)
       raise ArgumentError, 'Missing block' unless block_given?
       @_override_ga_params = params
-      yield
-      nil # do not return any value
+      capture(&block)
     ensure
       @_override_ga_params = nil
     end
 
-    def without_google_analytics_params
+    # Acts as an around filter from the given block and return its content
+    # without inserting any analytics tag
+    #
+    # @yield The given block is executed with appeding analytics parameters
+    # @yieldreturn [String] content returned from the block with no parameters appended
+    #
+    # @example in an ERB template
+    #   <%= without_google_analytics_params(utm_content: 'foo') do -%>
+    #     <%= link_to 'foo', 'http://example.com' -%>
+    #   <%- end -%>
+    #
+    # @example Inline usage now possible because of captured output
+    #   <%= without_google_analytics_params(utm_content: 'foo') { link_to ... } -%>
+    #
+    # @return [String] the output of the block executed without analytics params
+    def without_google_analytics_params(&block)
       raise ArgumentError, 'Missing block' unless block_given?
       @_override_ga_params = Hash[VALID_ANALYTICS_PARAMS.zip([nil])]
-      yield
-      nil # do not return any value
+      capture(&block)
     ensure
       @_override_ga_params = nil
     end
