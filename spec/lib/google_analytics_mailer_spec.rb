@@ -2,22 +2,22 @@ require 'spec_helper'
 
 describe GoogleAnalyticsMailer do
 
-  it "ActionMailer::Base should extend GoogleAnalyticsMailer" do
+  it 'ActionMailer::Base should extend GoogleAnalyticsMailer' do
     (class << ActionMailer::Base; self end).included_modules.should include(GoogleAnalyticsMailer)
   end
 
-  describe ".google_analytics_mailer" do
+  describe '.google_analytics_mailer' do
 
     class TestMailer1 < ActionMailer::Base
     end
 
-    it "should raise on invalid options for GA params" do
+    it 'should raise on invalid options for GA params' do
       expect {
         ActionMailer::Base.google_analytics_mailer(foo: 'bar')
       }.to raise_error(ArgumentError, /:foo/)
     end
 
-    it "should assign given parameters to a class variable" do
+    it 'should assign given parameters to a class variable' do
       params = {utm_source: 'newsletter', utm_medium: 'email'}
       TestMailer1.google_analytics_mailer(params)
       TestMailer1.google_analytics_class_params.should == params
@@ -63,41 +63,41 @@ describe GoogleAnalyticsMailer do
   describe UserMailer do
 
     # see view in spec/support/views/user_mailer/welcome.html.erb
-    describe "#welcome" do
+    describe '#welcome' do
 
       subject { UserMailer.welcome }
 
-      it "should have analytics link with params taken from class definition" do
+      it 'should have analytics link with params taken from class definition' do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
       end
 
-      it "should have analytics link with overridden params" do
+      it 'should have analytics link with overridden params' do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
       end
 
     end
 
     # see view in spec/support/views/user_mailer/welcome2.html.erb
-    describe "#welcome2" do
+    describe '#welcome2' do
 
       subject { UserMailer.welcome2 }
 
-      it "should have analytics link with params taken from instance" do
+      it 'should have analytics link with params taken from instance' do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=second_newsletter&utm_term=welcome2'
       end
 
-      it "should have analytics link with overridden params" do
+      it 'should have analytics link with overridden params' do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
       end
 
     end
 
     # see view in spec/support/views/user_mailer/welcome3.html.erb
-    describe "#welcome3" do
+    describe '#welcome3' do
 
       subject { UserMailer.welcome3 }
 
-      it "should have analytics link with params taken from view" do
+      it 'should have analytics link with params taken from view' do
         subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
       end
 
