@@ -1,5 +1,3 @@
-require 'action_view/helpers/capture_helper'
-
 module GoogleAnalyticsMailer # :nodoc:
 
   # This module is added as helper to ActionMailer objects and override
