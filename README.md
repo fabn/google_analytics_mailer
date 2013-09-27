@@ -72,8 +72,19 @@ At view level you can override generated parameters using the `with_google_analy
 
 ```erb
 <div class="footer">
-  <%- with_google_analytics_params(utm_term: 'footer') do -%>
+  <%= with_google_analytics_params(utm_term: 'footer') do -%>
     <!-- this will override other params and produces ?utm_medium=email&utm_source=newsletter&utm_term=footer -->
+    <%= link_to('Read online', newsletter_url) -%>
+  <%- end -%>
+</div>
+```
+
+or you can disable them for a specific block
+
+```erb
+<div class="footer">
+  <%= without_google_analytics_params do -%>
+    <!-- this will output link with no analytics params at all -->
     <%= link_to('Read online', newsletter_url) -%>
   <%- end -%>
 </div>
