@@ -6,3 +6,5 @@ gemspec
 # used locally for documentation
 gem 'redcarpet'
 gem 'yard'
+# used for code coverage reports
+gem 'coveralls', require: false
