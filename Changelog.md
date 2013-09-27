@@ -1,5 +1,6 @@
 Not released changes
 
+* Allow disabling gem for a block of code with helper `without_google_analytics_params`
 * Allow usage also in controllers since they have the same structure of `ActionMailer::Base`
 * Extracted uri parser in its own class
 

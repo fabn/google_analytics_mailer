@@ -21,8 +21,17 @@ module GoogleAnalyticsMailer # :nodoc:
     # Allow to override Google Analytics params for a given block in views
     # @return [String]
     def with_google_analytics_params(params)
-      raise ArgumentError, "Missing block" unless block_given?
+      raise ArgumentError, 'Missing block' unless block_given?
       @_override_ga_params = params
+      yield
+      nil # do not return any value
+    ensure
+      @_override_ga_params = nil
+    end
+
+    def without_google_analytics_params
+      raise ArgumentError, 'Missing block' unless block_given?
+      @_override_ga_params = Hash[VALID_ANALYTICS_PARAMS.zip([nil])]
       yield
       nil # do not return any value
     ensure

@@ -35,4 +35,16 @@ describe GoogleAnalyticsMailer::UrlFor do
 
   end
 
+  describe '#without_google_analytics_params' do
+
+    it 'should ignore analytic params in the block' do
+      subject.stub(computed_analytics_params: {utm_source: 'foo'})
+      subject.without_google_analytics_params do
+        subject.url_for('http://www.example.com').should == 'http://www.example.com'
+      end
+      subject.url_for('http://www.example.com').should include 'utm_source=foo'
+    end
+
+  end
+
 end
