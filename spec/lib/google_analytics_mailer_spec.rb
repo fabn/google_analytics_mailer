@@ -23,6 +23,10 @@ describe GoogleAnalyticsMailer do
       TestMailer1.google_analytics_class_params.should == params
     end
 
+    it 'should be aliased to google_analytics_controller' do
+      ActionMailer::Base.should respond_to :google_analytics_controller
+    end
+
   end
 
   class UserMailer < ActionMailer::Base

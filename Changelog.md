@@ -1,5 +1,6 @@
 Not released changes
 
+* Allow usage also in controllers since they have the same structure of `ActionMailer::Base`
 * Extracted uri parser in its own class
 
 ## 0.1.2, released 2013-09-26
