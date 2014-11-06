@@ -17,3 +17,9 @@ test/version_tmp
 tmp
 # Appraisals lockfiles
 gemfiles/*.lock
+
+# Exclude ide files and rvm files
+.idea/
+.rvmrc
+.ruby-version
+.ruby-gemset
