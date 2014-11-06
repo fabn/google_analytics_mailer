@@ -95,7 +95,7 @@ or you can disable them for a specific block
 
 Since ActionMailer and ActionController use the same code base to provide view rendering this gem can be used in the
  same way in any action controller which inherits from `ActionController::Base` (i.e. almost every controller in a
- Rails application). The alias `google_analytics_controller` is provided for better compatibility thus in a controller
+ Rails application). The alias `google_analytics_controller` is provided for better naming thus in a controller you can do
 
 ```ruby
 class UserController < ApplicationController

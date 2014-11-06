@@ -5,3 +5,7 @@ end
 appraise 'actionmailer4_0' do
   gem 'actionmailer', '~> 4.0.0'
 end
+
+appraise 'actionmailer4_1' do
+  gem 'actionmailer', '~> 4.1.0'
+end

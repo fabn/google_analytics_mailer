@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = GoogleAnalyticsMailer::VERSION
   gem.authors       = ['Fabio Napoleoni']
   gem.email         = ['f.napoleoni@gmail.com']
-  gem.description   = %q{This gem add google analytics campagin tags to every link in your action mailer}
+  gem.description   = %q{This gem add google analytics campaign tags to every link in your action mailer}
   gem.summary       = %q{This gem provides automatic Google Analytics tagged links in ActionMailer generated emails}
   gem.homepage      = 'https://github.com/fabn/google_analytics_mailer'
   gem.license       = 'MIT'
@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   # gem dependencies for development
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rails', '>= 3.2.0'
-  gem.add_development_dependency 'rspec-rails', '~> 2.13.0'
-  gem.add_development_dependency 'email_spec', '~> 1.2.0'
-  gem.add_development_dependency 'appraisal'
+  gem.add_development_dependency 'rspec-rails', '~> 2.14.0'
+  gem.add_development_dependency 'email_spec', '>= 1.5.0'
+  gem.add_development_dependency 'appraisal', '~> 1.0.2'
 end

@@ -5,6 +5,6 @@ source "https://rubygems.org"
 gem "redcarpet"
 gem "yard"
 gem "coveralls", :require => false
-gem "actionmailer", "~> 4.0.0"
+gem "actionmailer", "~> 4.1.0"
 
 gemspec :path => "../"
