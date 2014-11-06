@@ -1,5 +1,9 @@
 Not released changes
 
+## 0.2.1, released 2014-11-06
+
+* Testing support for ActionMailer 4.1
+
 ## 0.2.0, released 2013-09-28
 
 * Inserted rspec-rails as development dependency to allow easier testing of helper methods
