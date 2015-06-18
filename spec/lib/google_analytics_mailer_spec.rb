@@ -29,11 +29,8 @@ describe GoogleAnalyticsMailer do
 
   end
 
-  class UserMailer < ActionMailer::Base
+  class AbstractMailer < ActionMailer::Base
     default :from => 'no-reply@example.com'
-
-    # declare url parameters for this mailer
-    google_analytics_mailer utm_source: 'newsletter', utm_medium: 'email' # etc
 
     # simulate url helper
     helper do
@@ -57,7 +54,37 @@ describe GoogleAnalyticsMailer do
     def welcome3
       mail(to: 'user@example.com')
     end
+  end
 
+  class UserMailer < AbstractMailer
+    # declare url parameters for this mailer
+    google_analytics_mailer utm_source: 'newsletter', utm_medium: 'email' # etc
+  end
+
+  class FilteredMailer < AbstractMailer
+    # declare url parameters for this mailer
+    google_analytics_mailer utm_source: 'newsletter', utm_medium: 'email', filter: ->(uri) { uri.host == 'www.example.com' }
+  end
+
+  describe FilteredMailer do
+
+    # see view in spec/support/views/user_mailer/welcome.html.erb
+    describe '#welcome' do
+
+      subject { FilteredMailer.welcome }
+
+      it 'should have analytics link with params taken from class definition' do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
+      end
+
+      it 'should have analytics link with overridden params' do
+        subject.should have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+      end
+
+      it 'should have non-http link with no tracking' do
+        subject.should have_body_text '"http://www.external.com/"'
+      end
+    end
   end
 
   describe UserMailer do

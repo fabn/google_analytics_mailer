@@ -2,6 +2,9 @@ require 'addressable/uri'
 
 # Class used to do the actual insertion of parameters
 class GoogleAnalyticsMailer::UriBuilder
+  def initialize(filter=nil)
+    @filter = filter
+  end
 
   # Append google analytics params to the given uri
   # @param [String] uri the original uri
@@ -17,9 +20,11 @@ class GoogleAnalyticsMailer::UriBuilder
     # if no params return untouched url
     return uri if params.empty?
     # build the final url
-    ::Addressable::URI.parse(uri).tap do |parsed|
-      parsed.query_values = (parsed.query_values || {}).reverse_merge(params) if parsed.absolute?
-    end.to_s.html_safe
+    parsed = ::Addressable::URI.parse(uri)
+    return uri if @filter && !@filter.call(parsed)
+
+    parsed.query_values = (parsed.query_values || {}).reverse_merge(params) if parsed.absolute?
+    parsed.to_s.html_safe
   end
 
 end
