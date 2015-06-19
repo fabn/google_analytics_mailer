@@ -8,3 +8,4 @@ gemfile:
   - gemfiles/actionmailer3_2.gemfile
   - gemfiles/actionmailer4_0.gemfile
   - gemfiles/actionmailer4_1.gemfile
+  - gemfiles/actionmailer4_2.gemfile
