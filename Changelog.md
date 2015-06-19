@@ -1,5 +1,10 @@
 Not released changes
 
+## 0.3.0, released 2015-19-06
+
+* Added `filter` option to optionally filter URLs to rewrite. Thanks [afn](https://github.com/afn)
+* Testing support for ActionMailer 4.2
+
 ## 0.2.1, released 2014-11-06
 
 * Testing support for ActionMailer 4.1
