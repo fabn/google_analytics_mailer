@@ -9,7 +9,7 @@ require 'active_support/concern'
 module GoogleAnalyticsMailer
 
   # These are the currently GA allowed get params for link tagging
-  VALID_ANALYTICS_PARAMS = [:utm_source, :utm_medium, :utm_campaign, :utm_term, :utm_content]
+  VALID_ANALYTICS_PARAMS = [:utm_source, :utm_medium, :utm_campaign, :utm_term, :utm_content, :filter]
 
   # Enable google analytics link tagging for the mailer (or controller) which call this method
   #
@@ -24,12 +24,14 @@ module GoogleAnalyticsMailer
       raise ArgumentError, "Invalid parameters keys #{params.keys - VALID_ANALYTICS_PARAMS}"
     end
 
+    filter = params.delete(:filter)
+
     # add accessor for class level parameters
     cattr_accessor(:google_analytics_class_params) { params }
+    cattr_accessor(:google_analytics_filter) { filter }
 
     # include the module which provides the actual functionality
     include GoogleAnalytics
-
   end
 
   # Allow usage also in controllers since they have the same structure of ActionMailer

@@ -74,7 +74,7 @@ module GoogleAnalyticsMailer # :nodoc:
     # Return a UriBuilder instance
     # @return [UriBuilder]
     def builder
-      @_builder ||= UriBuilder.new
+      @_builder ||= UriBuilder.new controller.class.google_analytics_filter
     end
 
   end

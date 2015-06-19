@@ -4,6 +4,7 @@ describe GoogleAnalyticsMailer::UrlFor do
 
   before(:each) do
     controller.stub(computed_analytics_params: {utm_source: 'foo'})
+    controller.class.stub(google_analytics_filter: nil)
   end
 
   describe '#with_google_analytics_params' do
