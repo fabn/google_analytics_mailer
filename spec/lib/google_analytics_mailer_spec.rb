@@ -74,7 +74,7 @@ describe GoogleAnalyticsMailer do
     # Used in groups, retrieve mailer using example description
     subject do |example|
       mailer_action = example.example_group.description.sub /^\./, ''
-      described_class.public_send(mailer_action)
+      described_class.public_send(mailer_action).tap(&:deliver_now)
     end
 
     # This method is a monkeypatch coming from EmailSpec to return email body as string
@@ -104,6 +104,10 @@ describe GoogleAnalyticsMailer do
 
       # see view in spec/support/views/user_mailer/welcome.html.erb
       describe '.welcome' do
+
+        it 'should not have the custom header' do
+          expect(subject).not_to have_header GoogleAnalyticsMailer::Interceptor::HEADER_NAME, /utm_source/
+        end
 
         it 'should have analytics link with params taken from class definition' do
           expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'

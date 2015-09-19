@@ -1,8 +1,10 @@
 require 'google_analytics_mailer/version'
 require 'google_analytics_mailer/url_for'
 require 'google_analytics_mailer/uri_builder'
+require 'google_analytics_mailer/interceptor'
+require 'google_analytics_mailer/injector'
 require 'action_mailer'
-require 'active_support/concern'
+require 'json'
 
 # This module declares the main class method which is then callable from every
 # ActionMailer class and in ActionController::Base if available.
@@ -30,20 +32,14 @@ module GoogleAnalyticsMailer
     cattr_accessor(:google_analytics_class_params) { params }
     cattr_accessor(:google_analytics_filter) { filter }
 
-    # include the module which provides the actual functionality
+    # include the module which provides some instance methods
     include GoogleAnalytics
+    # Take care of serialize params in a custom header processed by interceptor
+    default GoogleAnalyticsMailer::Interceptor::HEADER_NAME => proc { JSON.dump(computed_analytics_params) }
   end
 
   # This module provides methods to deal with parameter merging and similar stuff
   module GoogleAnalytics
-
-    # uses concern to include it
-    extend ActiveSupport::Concern
-
-    # this code is evaluated in class context
-    included do
-      helper GoogleAnalyticsMailer::UrlFor
-    end
 
     # This method return the actual parameters to use when building links
     # @return [Hash] computed parameters
@@ -53,7 +49,7 @@ module GoogleAnalyticsMailer
 
     private
     # Instance level parameters, used only for the given message
-    def google_analytics_params params
+    def google_analytics_params(params)
       @_ga_instance_params = params
     end
 
@@ -63,3 +59,5 @@ end
 
 # Add the class method to ActionMailer::Base
 ActionMailer::Base.send :extend, GoogleAnalyticsMailer
+# Add the interceptor, it does the hard work. Interceptors are global and not per class.
+ActionMailer::Base.register_interceptor GoogleAnalyticsMailer::Interceptor
