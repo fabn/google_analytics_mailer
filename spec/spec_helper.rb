@@ -4,7 +4,6 @@ Coveralls.wear!
 
 # Gem main file
 require 'google_analytics_mailer'
-require 'minitest/autorun'
 require 'active_support/all'
 require 'email_spec'
 require 'rails/all'
