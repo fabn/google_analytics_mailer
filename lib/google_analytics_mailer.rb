@@ -34,9 +34,6 @@ module GoogleAnalyticsMailer
     include GoogleAnalytics
   end
 
-  # Allow usage also in controllers since they have the same structure of ActionMailer
-  alias_method :google_analytics_controller, :google_analytics_mailer
-
   # This module provides methods to deal with parameter merging and similar stuff
   module GoogleAnalytics
 
@@ -66,6 +63,3 @@ end
 
 # Add the class method to ActionMailer::Base
 ActionMailer::Base.send :extend, GoogleAnalyticsMailer
-
-# Allow usage also in application controller if required in dependencies
-ActionController::Base.send :extend, GoogleAnalyticsMailer if defined?(ActionController::Base)

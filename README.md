@@ -91,27 +91,6 @@ or you can disable them for a specific block
 </div>
 ```
 
-## Action Controller integration
-
-Since ActionMailer and ActionController use the same code base to provide view rendering this gem can be used in the
- same way in any action controller which inherits from `ActionController::Base` (i.e. almost every controller in a
- Rails application). The alias `google_analytics_controller` is provided for better naming thus in a controller you can do
-
-```ruby
-class UserController < ApplicationController
-
-  # declare url parameters for this controller. Absolute links in this controller will be tagged with GA parameters
-  google_analytics_controller utm_source: 'some site', utm_medium: 'web' # etc
-
-  # Override for single action
-  def index
-    google_analytics_params(utm_source: 'index page', utm_term: 'foo bar')
-  end
-end
-```
-
-View syntax is obviously the same as in mailer.
-
 ## Contributing
 
 1. Fork it
