@@ -1,5 +1,4 @@
 require 'google_analytics_mailer/version'
-require 'google_analytics_mailer/url_for'
 require 'google_analytics_mailer/uri_builder'
 require 'google_analytics_mailer/interceptor'
 require 'google_analytics_mailer/injector'

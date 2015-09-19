@@ -24,10 +24,6 @@ RSpec.describe GoogleAnalyticsMailer do
       expect(TestMailer1.google_analytics_class_params).to eq(params)
     end
 
-    it 'should be aliased to google_analytics_controller' do
-      expect(ActionMailer::Base).to respond_to :google_analytics_controller
-    end
-
   end
 
   class AbstractMailer < ActionMailer::Base
@@ -126,15 +122,6 @@ RSpec.describe GoogleAnalyticsMailer do
 
         it 'should have analytics link with overridden params' do
           expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
-        end
-
-      end
-
-      # see view in spec/support/views/user_mailer/welcome3.html.erb
-      describe '.welcome3' do
-
-        it 'should have analytics link with params taken from view' do
-          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
         end
 
       end

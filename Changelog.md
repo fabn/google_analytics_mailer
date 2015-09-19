@@ -1,5 +1,6 @@
 Not released changes
 
+* Removed `with_google_analytics_params` view helper. If you want you can still override params manually.
 * Removed `ActionController` integration.
 * Dropped support for ruby 1.9.3
 
