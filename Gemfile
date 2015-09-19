@@ -16,5 +16,6 @@ gem 'email_spec', '>= 1.5.0'
 gem 'appraisal', '~> 1.0.2'
 
 group :test do
-  gem 'sqlite3'
+  gem 'pry'
+  gem 'pry-doc'
 end
