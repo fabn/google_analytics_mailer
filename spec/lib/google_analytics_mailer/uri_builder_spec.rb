@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe GoogleAnalyticsMailer::UriBuilder do
 
   describe '#build' do

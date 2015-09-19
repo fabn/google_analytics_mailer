@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe GoogleAnalyticsMailer do
 
   it 'ActionMailer::Base should extend GoogleAnalyticsMailer' do
