@@ -9,10 +9,9 @@ gem 'yard'
 # used for code coverage reports
 gem 'coveralls', require: false
 
-# gem dependencies for development
+# gem dependencies for development and test
 gem 'rake'
-gem 'rails', '>= 3.2.0'
-gem 'rspec-rails'
+gem 'rspec'
 gem 'email_spec', '>= 1.5.0'
 gem 'appraisal', '~> 1.0.2'
 
