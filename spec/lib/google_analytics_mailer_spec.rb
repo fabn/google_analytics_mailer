@@ -89,10 +89,14 @@ describe GoogleAnalyticsMailer do
 
   describe UserMailer do
 
-    # see view in spec/support/views/user_mailer/welcome.html.erb
-    describe '#welcome' do
+    # Used in groups, retrieve mailer using example description
+    subject do |example|
+      mailer_action = example.example_group.description.sub /^\./, ''
+      described_class.public_send(mailer_action)
+    end
 
-      subject { UserMailer.welcome }
+    # see view in spec/support/views/user_mailer/welcome.html.erb
+    describe '.welcome' do
 
       it 'should have analytics link with params taken from class definition' do
         expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
@@ -105,9 +109,7 @@ describe GoogleAnalyticsMailer do
     end
 
     # see view in spec/support/views/user_mailer/welcome2.html.erb
-    describe '#welcome2' do
-
-      subject { UserMailer.welcome2 }
+    describe '.welcome2' do
 
       it 'should have analytics link with params taken from instance' do
         expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=second_newsletter&utm_term=welcome2'
@@ -120,9 +122,7 @@ describe GoogleAnalyticsMailer do
     end
 
     # see view in spec/support/views/user_mailer/welcome3.html.erb
-    describe '#welcome3' do
-
-      subject { UserMailer.welcome3 }
+    describe '.welcome3' do
 
       it 'should have analytics link with params taken from view' do
         expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
