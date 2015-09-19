@@ -3,37 +3,36 @@
 class GoogleAnalyticsMailer::Interceptor
 
   # Custom header used to store computed analytics parameters
-  HEADER_NAME = 'X-GA-Params'.freeze
+  PARAMS_HEADER = 'X-GA-Params'.freeze
+  # Custom header used to report generator action mailer class
+  CLASS_HEADER = 'X-ActionMailer'.freeze
 
   class << self
 
     # Interceptor interface, receive an email object and can modify it
     # @param [Mail::Message] email the email message
     def delivering_email(email)
-      extract_params(email).tap do |params|
-        inject_params(email, params) if params
+      extract_params(email) do |params, klass|
+        # Inject GA link parameters in the message
+        GoogleAnalyticsMailer::Injector.new(email, params, klass).process!
       end
     end
 
     private
 
-    # Inject GA link parameters in the message
-    def inject_params(email, params)
-      GoogleAnalyticsMailer::Injector.new(email, params).process!
-    end
-
     # Take care of extracting GA parameters and remove the custom header
-    # @return [Hash] extracted params or nil if none
+    # @yieldparam [Hash] params google analytics params
+    # @yieldparam [ActionMailer::Base] klass class that generated this email
     def extract_params(email)
-      params = email.header[HEADER_NAME]
-      # Remove the header from the message and return unserialized params
+      params, klass = email.header[PARAMS_HEADER], email.header[CLASS_HEADER]
+      # Remove custom headers from the message and yield if header found
       if params
-        email.header[HEADER_NAME] = nil
-        JSON.load(params.value)
+        email.header[PARAMS_HEADER] = nil
+        email.header[CLASS_HEADER] = nil
+        yield JSON.load(params.value).with_indifferent_access, klass.value.constantize
       end
     end
 
   end
-
 
 end

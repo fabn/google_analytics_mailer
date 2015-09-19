@@ -34,7 +34,8 @@ module GoogleAnalyticsMailer
     # include the module which provides some instance methods
     include GoogleAnalytics
     # Take care of serialize params in a custom header processed by interceptor
-    default GoogleAnalyticsMailer::Interceptor::HEADER_NAME => proc { JSON.dump(computed_analytics_params) }
+    default GoogleAnalyticsMailer::Interceptor::PARAMS_HEADER => proc { JSON.dump(computed_analytics_params) },
+            GoogleAnalyticsMailer::Interceptor::CLASS_HEADER => self.to_s
   end
 
   # This module provides methods to deal with parameter merging and similar stuff

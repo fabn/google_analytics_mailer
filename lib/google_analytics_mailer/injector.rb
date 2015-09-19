@@ -3,12 +3,17 @@ class GoogleAnalyticsMailer::Injector
 
   attr_reader :email, :params
 
-  def initialize(email, params)
+  # Build an injector
+  # @param [Mail::Message] email the message to process
+  # @param [HashWithIndifferentAccess] params GA params
+  # @param [ActionMailer::Base] mailer message originator
+  def initialize(email, params, mailer)
     @email = email
     @params = params
-    @builder = GoogleAnalyticsMailer::UriBuilder.new
+    @builder = GoogleAnalyticsMailer::UriBuilder.new(mailer.google_analytics_filter)
   end
 
+  # Process the message by replacing url in body appending configured analytics parameters
   def process!
     # Replace links in all html parts of a message
     process_html_part do |doc|
