@@ -1,5 +1,6 @@
 Not released changes
 
+* Removed `ActionController` integration.
 * Dropped support for ruby 1.9.3
 
 ## 0.3.0, released 2015-19-06
