@@ -23,3 +23,6 @@ gemfiles/*.lock
 .rvmrc
 .ruby-version
 .ruby-gemset
+
+# RSpec failed examples
+spec/examples.txt
