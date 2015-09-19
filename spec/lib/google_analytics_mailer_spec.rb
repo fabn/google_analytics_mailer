@@ -1,4 +1,4 @@
-describe GoogleAnalyticsMailer do
+RSpec.describe GoogleAnalyticsMailer do
 
   it 'ActionMailer::Base should extend GoogleAnalyticsMailer' do
     expect((

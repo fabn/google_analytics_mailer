@@ -1,4 +1,4 @@
-describe GoogleAnalyticsMailer::UriBuilder do
+RSpec.describe GoogleAnalyticsMailer::UriBuilder do
 
   describe '#build' do
 
