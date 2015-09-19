@@ -1,5 +1,7 @@
 Not released changes
 
+* Dropped support for ruby 1.9.3
+
 ## 0.3.0, released 2015-19-06
 
 * Added `filter` option to optionally filter URLs to rewrite. Thanks [afn](https://github.com/afn)

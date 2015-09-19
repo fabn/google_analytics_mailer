@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{This gem provides automatic Google Analytics tagged links in ActionMailer generated emails}
   gem.homepage      = 'https://github.com/fabn/google_analytics_mailer'
   gem.license       = 'MIT'
+  gem.required_ruby_version = '>= 2.0.0'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
