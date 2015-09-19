@@ -3,7 +3,10 @@ require 'spec_helper'
 describe GoogleAnalyticsMailer do
 
   it 'ActionMailer::Base should extend GoogleAnalyticsMailer' do
-    expect((class << ActionMailer::Base; self end).included_modules).to include(GoogleAnalyticsMailer)
+    expect((
+           class << ActionMailer::Base;
+             self
+           end).included_modules).to include(GoogleAnalyticsMailer)
   end
 
   describe '.google_analytics_mailer' do
@@ -66,28 +69,7 @@ describe GoogleAnalyticsMailer do
     google_analytics_mailer utm_source: 'newsletter', utm_medium: 'email', filter: ->(uri) { uri.host == 'www.example.com' }
   end
 
-  describe FilteredMailer do
-
-    # see view in spec/support/views/user_mailer/welcome.html.erb
-    describe '#welcome' do
-
-      subject { FilteredMailer.welcome }
-
-      it 'should have analytics link with params taken from class definition' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
-      end
-
-      it 'should have analytics link with overridden params' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
-      end
-
-      it 'should have non-http link with no tracking' do
-        expect(subject).to have_body_text '"http://www.external.com/"'
-      end
-    end
-  end
-
-  describe UserMailer do
+  describe 'Mailer objects' do
 
     # Used in groups, retrieve mailer using example description
     subject do |example|
@@ -95,41 +77,67 @@ describe GoogleAnalyticsMailer do
       described_class.public_send(mailer_action)
     end
 
-    # see view in spec/support/views/user_mailer/welcome.html.erb
-    describe '.welcome' do
+    # This method is a monkeypatch coming from EmailSpec to return email body as string
+    let(:email_body) { subject.default_part_body }
 
-      it 'should have analytics link with params taken from class definition' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
+    describe FilteredMailer do
+
+      # see view in spec/support/views/user_mailer/welcome.html.erb
+      describe '.welcome' do
+
+        it 'should have analytics link with params taken from class definition' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
+        end
+
+        it 'should have analytics link with overridden params' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+        end
+
+        it 'should have non-http link with no tracking' do
+          # Capybara matcher uses exact match for href, not substrings
+          expect(email_body).to have_link 'External link', href: 'http://www.external.com/'
+        end
+      end
+    end
+
+    describe UserMailer do
+
+      # see view in spec/support/views/user_mailer/welcome.html.erb
+      describe '.welcome' do
+
+        it 'should have analytics link with params taken from class definition' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter'
+        end
+
+        it 'should have analytics link with overridden params' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+        end
+
       end
 
-      it 'should have analytics link with overridden params' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter'
+      # see view in spec/support/views/user_mailer/welcome2.html.erb
+      describe '.welcome2' do
+
+        it 'should have analytics link with params taken from instance' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=second_newsletter&utm_term=welcome2'
+        end
+
+        it 'should have analytics link with overridden params' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
+        end
+
+      end
+
+      # see view in spec/support/views/user_mailer/welcome3.html.erb
+      describe '.welcome3' do
+
+        it 'should have analytics link with params taken from view' do
+          expect(email_body).to have_link 'Read online', href: 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
+        end
+
       end
 
     end
-
-    # see view in spec/support/views/user_mailer/welcome2.html.erb
-    describe '.welcome2' do
-
-      it 'should have analytics link with params taken from instance' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=second_newsletter&utm_term=welcome2'
-      end
-
-      it 'should have analytics link with overridden params' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=my_newsletter&utm_term=welcome2'
-      end
-
-    end
-
-    # see view in spec/support/views/user_mailer/welcome3.html.erb
-    describe '.welcome3' do
-
-      it 'should have analytics link with params taken from view' do
-        expect(subject).to have_body_text 'http://www.example.com/newsletter?utm_medium=email&utm_source=newsletter&utm_term=footer'
-      end
-
-    end
-
   end
 
 end

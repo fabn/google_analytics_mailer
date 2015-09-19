@@ -14,6 +14,7 @@ gem 'rake'
 gem 'rspec'
 gem 'email_spec', '>= 1.5.0'
 gem 'appraisal', '~> 1.0.2'
+gem 'capybara'
 
 group :test do
   gem 'pry'

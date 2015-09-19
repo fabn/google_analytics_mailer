@@ -6,6 +6,8 @@ Coveralls.wear!
 require 'google_analytics_mailer'
 require 'active_support/all'
 require 'email_spec'
+require 'capybara/dsl'
+require 'capybara/rspec/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -20,5 +22,6 @@ RSpec.configure do |config|
 
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
+  config.include Capybara::RSpecMatchers
 
 end
