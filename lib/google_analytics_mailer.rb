@@ -3,7 +3,6 @@ require 'google_analytics_mailer/uri_builder'
 require 'google_analytics_mailer/interceptor'
 require 'google_analytics_mailer/injector'
 require 'action_mailer'
-require 'json'
 
 # This module declares the main class method which is then callable from every
 # ActionMailer class and in ActionController::Base if available.
@@ -34,8 +33,8 @@ module GoogleAnalyticsMailer
     # include the module which provides some instance methods
     include GoogleAnalytics
     # Take care of serialize params in a custom header processed by interceptor
-    default GoogleAnalyticsMailer::Interceptor::PARAMS_HEADER => proc { JSON.dump(computed_analytics_params) },
-            GoogleAnalyticsMailer::Interceptor::CLASS_HEADER => self.to_s
+    default Interceptor::PARAMS_HEADER => proc { Interceptor.dump(computed_analytics_params) },
+            Interceptor::CLASS_HEADER => Interceptor.dump(self)
   end
 
   # This module provides methods to deal with parameter merging and similar stuff

@@ -1,3 +1,5 @@
+require 'base64'
+
 # This class is used as mail interceptor to detect GA configuration and to trigger
 # parameters injection.
 class GoogleAnalyticsMailer::Interceptor
@@ -18,6 +20,16 @@ class GoogleAnalyticsMailer::Interceptor
       end
     end
 
+    # Produce a valid serialization for email headers according to RFC822
+    # @return [String] serialized value
+    def dump(value)
+      Base64.encode64(Marshal.dump(value))
+    end
+
+    def load(value)
+      Marshal.load(Base64.decode64(value))
+    end
+
     private
 
     # Take care of extracting GA parameters and remove the custom header
@@ -29,7 +41,7 @@ class GoogleAnalyticsMailer::Interceptor
       if params
         email.header[PARAMS_HEADER] = nil
         email.header[CLASS_HEADER] = nil
-        yield JSON.load(params.value).with_indifferent_access, klass.value.constantize
+        yield load(params.value).with_indifferent_access, load(klass.value)
       end
     end
 

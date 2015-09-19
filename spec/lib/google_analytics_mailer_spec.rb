@@ -62,8 +62,10 @@ RSpec.describe GoogleAnalyticsMailer do
       # see view in spec/support/views/user_mailer/welcome.html.erb
       describe '.welcome' do
 
-        it 'should not have the custom header' do
-          expect(subject).not_to have_header GoogleAnalyticsMailer::Interceptor::PARAMS_HEADER, /utm_source/
+        it 'should remove custom headers' do
+          all_headers = subject.header.fields.map(&:name)
+          expect(all_headers).not_to include GoogleAnalyticsMailer::Interceptor::PARAMS_HEADER
+          expect(all_headers).not_to include GoogleAnalyticsMailer::Interceptor::CLASS_HEADER
         end
 
         it 'should have analytics link with params taken from class definition' do
