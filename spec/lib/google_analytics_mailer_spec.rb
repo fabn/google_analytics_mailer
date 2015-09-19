@@ -31,7 +31,10 @@ RSpec.describe GoogleAnalyticsMailer do
     # Used in groups, retrieve mailer using example description
     subject do |example|
       mailer_action = example.example_group.description.sub /^\./, ''
-      described_class.public_send(mailer_action).tap(&:deliver_now)
+      described_class.public_send(mailer_action).tap do |email|
+        # Message must be delivered to trigger interceptors, ensure Rails < 4.2 compatibility
+        email.respond_to?(:deliver_now) ? email.deliver_now : email.deliver
+      end
     end
 
     # This method is a monkeypatch coming from EmailSpec to return email body as string
