@@ -4,13 +4,14 @@ Coveralls.wear!
 
 # Gem main file
 require 'google_analytics_mailer'
+require 'minitest/autorun'
 require 'active_support/all'
 require 'email_spec'
 require 'rails/all'
 require 'rspec/rails'
 
 # Connect to an in memory db, needed for rails 4.1 testing
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
 ActiveRecord::Schema.verbose = false
 
 # Requires supporting ruby files with custom matchers and macros, etc,
