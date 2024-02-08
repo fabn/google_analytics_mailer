@@ -19,6 +19,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   # gem dependencies for runtime
-  gem.add_runtime_dependency 'addressable', '~> 2.3.0'
+  gem.add_runtime_dependency 'addressable', '~> 2.8.0'
   gem.add_runtime_dependency 'actionmailer', '>= 3.2.0'
 end
